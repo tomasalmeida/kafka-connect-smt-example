@@ -1,0 +1,41 @@
+{
+    "name": "mongo-insertor",
+    "config": {
+        "name": "mongo-insertor",
+        "connector.class": "com.mongodb.kafka.connect.MongoSinkConnector",
+        
+        "topics": "topic-test-t1, topic-test-t2, topic-test-t3",
+        
+        "connection.uri": "mongodb+srv://<USER>:<PASS>@<MONGODB>/?retryWrites=true&w=majority&connectTimeoutMS=300000",
+        "database": "data",
+        "collection": "test",
+        
+        "transforms": "fieldForT1, fieldForT2, fieldForT3",
+        
+        "transforms.fieldForT1.type": "org.apache.kafka.connect.transforms.InsertField$Value",
+        "transforms.fieldForT1.static.field": "topic",
+        "transforms.fieldForT1.static.value": "t1",
+        "transforms.fieldForT1.predicate": "isT1",
+        
+        "transforms.fieldForT2.type": "org.apache.kafka.connect.transforms.InsertField$Value",
+        "transforms.fieldForT2.static.field": "topic",
+        "transforms.fieldForT2.static.value": "t2",
+        "transforms.fieldForT2.predicate": "isT2",
+        
+        "transforms.fieldForT3.type": "org.apache.kafka.connect.transforms.InsertField$Value",
+        "transforms.fieldForT3.static.field": "topic",
+        "transforms.fieldForT3.static.value": "t3",
+        "transforms.fieldForT3.predicate": "isT3",
+        
+        "predicates": "isT1,isT2,isT3",
+        
+        "predicates.isT1.type": "org.apache.kafka.connect.transforms.predicates.TopicNameMatches",
+        "predicates.isT1.pattern": "topic-test-t1",
+
+        "predicates.isT2.type": "org.apache.kafka.connect.transforms.predicates.TopicNameMatches",
+        "predicates.isT2.pattern": "topic-test-t2",
+
+        "predicates.isT3.type": "org.apache.kafka.connect.transforms.predicates.TopicNameMatches",
+        "predicates.isT3.pattern": "topic-test-t3"
+    }
+}
