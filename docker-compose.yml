@@ -26,10 +26,10 @@ services:
       - mainZookeeper
     ports:
       - "19092:19092"
+      - "8077:8077"
     environment:
       KAFKA_ZOOKEEPER_CONNECT: "mainZookeeper:2181"
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: DOCKER:PLAINTEXT,HOST:PLAINTEXT
-      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_ADVERTISED_LISTENERS: DOCKER://mainKafka:9092,HOST://localhost:19092
       KAFKA_INTER_BROKER_LISTENER_NAME: DOCKER
       KAFKA_BROKER_ID: 1
@@ -46,6 +46,14 @@ services:
       KAFKA_CONFLUENT.SECURITY.EVENT.LOGGER.EXPORTER.KAFKA.TOPIC.REPLICAS: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_OPTS:
+        -Dcom.sun.management.jmxremote
+        -Dcom.sun.management.jmxremote.port=8077
+        -Dcom.sun.management.jmxremote.local.only=false
+        -Dcom.sun.management.jmxremote.authenticate=false
+        -Dcom.sun.management.jmxremote.ssl=false
+        -Djava.rmi.server.hostname=localhost
+        -Dcom.sun.management.jmxremote.rmi.port=8077
   mainSchemaregistry:
     image: ${REPOSITORY}/cp-schema-registry:${CONFLUENT_DOCKER_TAG}
     container_name: mainSchemaregistry

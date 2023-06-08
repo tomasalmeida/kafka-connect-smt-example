@@ -25,9 +25,9 @@ done
 echo "Broker ready!!"
 
 # Create the test-topics
-docker-compose exec mainKafka kafka-topics --bootstrap-server mainKafka:9092 --topic topic-test-t1 --create --partitions 1 --replication-factor 1
-docker-compose exec mainKafka kafka-topics --bootstrap-server mainKafka:9092 --topic topic-test-t2 --create --partitions 1 --replication-factor 1
-docker-compose exec mainKafka kafka-topics --bootstrap-server mainKafka:9092 --topic topic-test-t3 --create --partitions 1 --replication-factor 1
+kafka-topics --bootstrap-server localhost:19092 --topic topic-test-t1 --create --partitions 1 --replication-factor 1
+kafka-topics --bootstrap-server localhost:19092 --topic topic-test-t2 --create --partitions 1 --replication-factor 1
+kafka-topics --bootstrap-server localhost:19092 --topic topic-test-t3 --create --partitions 1 --replication-factor 1
 
 #create the schemas
 curl -X POST -H "Content-Type: application/vnd.schemaregistry.v1+json" --data @data/schema.avsc  http://localhost:8081/subjects/topic-test-t1-value/versions
@@ -49,7 +49,7 @@ do
   #backoff
   sleep 10
 done
-echo "replicator configured"
+echo "mongo sink connector configured"
 
 # show result
 docker-compose ps -a
